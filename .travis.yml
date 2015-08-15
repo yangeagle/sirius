@@ -5,15 +5,12 @@ compiler: gcc
 cache: apt
 
 env:
-    - WITH_SUITE=true WITH_CUDA=false WITH_APP=false
-    # - WITH_SUITE=true WITH_CUDA=true WITH_APP=false
-    # - WITH_SUITE=false WITH_CUDA=false WITH_APP=true
+    - WITH_SUITE=true WITH_APP=false WITH_CUDA=false
+    - WITH_SUITE=false WITH_APP=true WITH_CUDA=false
 
 before_install:
-    - export NUM_THREADS=1
-    - export VER=0.1
-    - if $WITH_SUITE; then
-      sudo apt-get install -y python-software-properties;
+    - export NUM_THREADS=4
+    - sudo apt-get install -y python-software-properties;
       sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
       sudo apt-get update;
       sudo apt-get install -y gcc-4.8 g++-4.8;
@@ -28,7 +25,6 @@ before_install:
       make -j$NUM_THREADS;
       sudo make -j$NUM_THREADS install;
       cd ../..;
-      fi
 
 install:
     - if $WITH_SUITE; then
@@ -48,8 +44,7 @@ before_script:
 script:
     - if $WITH_SUITE; then
       cd sirius-suite;
-      make;
-      cd ..;
+      ./prepare.sh && make && cd ..;
       fi
     - if $WITH_APP; then
       cd sirius-application && ./compile-sirius-servers.sh && cd ..;

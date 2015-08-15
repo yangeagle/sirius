@@ -21,7 +21,7 @@ SOURCES = detect.cpp kp_protobuf.cpp $(wildcard *.cc)
 OBJECTS = $(SOURCES:.cpp=.o)
 
 # Main target
-$(EXEC): $(OBJECTS) Makefile
+$(EXEC): $(OBJECTS)
 	$(CXX) $(OBJECTS) -o $(EXEC) $(LINK_FLAGS)
 
 # To obtain object files
